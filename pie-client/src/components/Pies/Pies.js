@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./Pies.css";
 import DisplayPies from "./Pie/Pie";
+import CreatePie from "./CreatePie/CreatePie";
 
 const Pies = (props) => {
   const [pies, setPies] = useState([]);
+  const [createPie, setCreatePie] = useState(false);
 
   const fetchPies = () => {
     let url = "http://localhost:3030/pies/";
@@ -21,7 +23,9 @@ const Pies = (props) => {
 
   useEffect(() => {
     fetchPies();
-  }, []);
+  }, [createPie]);
+
+  const buttonHandler = () => setCreatePie(true);
 
   const pie = [
     {
@@ -44,6 +48,14 @@ const Pies = (props) => {
 
   return (
     <div>
+      {createPie ? (
+        <CreatePie
+          setCreatePie={setCreatePie}
+          sessionToken={props.sessionToken}
+        />
+      ) : null}
+      {!createPie ? <button onClick={buttonHandler}>Create Pie!</button> : null}
+
       <table>
         <thead>
           <tr>
